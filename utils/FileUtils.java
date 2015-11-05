@@ -28,7 +28,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 
 public final class FileUtils {
-	
+
     /**
      * 检测SD卡是否存在
      */
@@ -318,4 +318,34 @@ public final class FileUtils {
         }
         return null == resultSb ? null : resultSb.toString();
     }
+
+	/**
+	 * 刷新图库，用于在保存图片到文件后调用
+	 * @param ctx
+	 * @param path
+	 */
+    public static void scanMediaFile(Context ctx, String path) {
+    	ctx.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + path)));
+    }
+
+    /**
+	 * 刷新图库，用于在保存图片到文件后调用
+	 * @param ctx
+	 * @param path
+	 */
+    public static void scanMediaFile(Context ctx, File file) {
+    	ctx.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
+    }
+
+/**
+	 * 刷新图库，用于在保存图片到文件后调用
+	 * 需要权限 android.intent.action.MEDIA_SCANNER_SCAN_DIR”
+	 * @param ctx
+	 * @param dirPath
+	 */
+    public static void scanMediaDir(Context ctx, Srting dirPath) {
+    	ctx.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_DIR, Uri.parse("file://" + path)));
+    }
+
+
 }
