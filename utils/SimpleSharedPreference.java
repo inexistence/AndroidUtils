@@ -10,8 +10,8 @@ import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
-public class PrefUtils {
-	private static final WeakHashMap<String, PrefUtils> sCachePrefUtils = new WeakHashMap<String, PrefUtils>();
+public class SimpleSharedPreference {
+	private static final WeakHashMap<String, SimpleSharedPreference> sCacheSimpleSharedPreference = new WeakHashMap<String, SimpleSharedPreference>();
 	
 	public static String DEFAULT_NAME = "default";
 	
@@ -24,7 +24,7 @@ public class PrefUtils {
 	private String mName = DEFAULT_NAME;
 	private SharedPreferences mPref;
 
-	public PrefUtils(Context ctx, String name) {
+	public SimpleSharedPreference(Context ctx, String name) {
 		SharedPreferences pref = null;
 		if (DEFAULT_NAME.equals(name) || TextUtils.isEmpty(name)) {
 			pref = PreferenceManager.getDefaultSharedPreferences(ctx);
@@ -35,16 +35,16 @@ public class PrefUtils {
 		mPref = pref;
 	}
 
-	public static PrefUtils getInstance(Context ctx, String name) {
-		PrefUtils prefUtils = sCachePrefUtils.get(name);
-		if (prefUtils == null) {
-			prefUtils = new PrefUtils(ctx, name);
-			sCachePrefUtils.put(name, prefUtils);
+	public static SimpleSharedPreference getInstance(Context ctx, String name) {
+		SimpleSharedPreference simpleSharedPreference = sCacheSimpleSharedPreference.get(name);
+		if (simpleSharedPreference == null) {
+			simpleSharedPreference = new SimpleSharedPreference(ctx, name);
+			sCacheSimpleSharedPreference.put(name, simpleSharedPreference);
 		}
-		return prefUtils;
+		return simpleSharedPreference;
 	}
 
-	public static PrefUtils getInstance(Context ctx) {
+	public static SimpleSharedPreference getInstance(Context ctx) {
 		return getInstance(ctx, DEFAULT_NAME);
 	}
 	
@@ -151,7 +151,7 @@ public class PrefUtils {
 	
 	@Override
 	public boolean equals(Object o) {
-		if(o instanceof PrefUtils && o !=null && ((PrefUtils) o).getName().equals(this.getName())) {
+		if(o instanceof SimpleSharedPreference && o !=null && ((SimpleSharedPreference) o).getName().equals(this.getName())) {
 			return true;
 		}
 		return false;
