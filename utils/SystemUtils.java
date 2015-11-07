@@ -23,6 +23,7 @@ import android.net.NetworkInfo;
 import android.net.NetworkInfo.State;
 import android.net.Uri;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 
 /**
@@ -181,7 +182,7 @@ public final class SystemUtils {
             version = context.getPackageManager().getPackageInfo(
                     context.getPackageName(), 0).versionName;
         } catch (NameNotFoundException e) {
-            throw new RuntimeException(SystemTool.class.getName()
+            throw new RuntimeException(SystemUtils.class.getName()
                     + "the application not found");
         }
         return version;
@@ -196,7 +197,7 @@ public final class SystemUtils {
             version = context.getPackageManager().getPackageInfo(
                     context.getPackageName(), 0).versionCode;
         } catch (NameNotFoundException e) {
-            throw new RuntimeException(SystemTool.class.getName()
+            throw new RuntimeException(SystemUtils.class.getName()
                     + "the application not found");
         }
         return version;
@@ -225,7 +226,7 @@ public final class SystemUtils {
                     pkgName, PackageManager.GET_SIGNATURES);
             return hexdigest(pis.signatures[0].toByteArray());
         } catch (NameNotFoundException e) {
-            throw new RuntimeException(SystemTool.class.getName() + "the "
+            throw new RuntimeException(SystemUtils.class.getName() + "the "
                     + pkgName + "'s application not found");
         }
     }

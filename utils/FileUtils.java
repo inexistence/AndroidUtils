@@ -20,6 +20,7 @@ import java.nio.channels.FileChannel;
 import android.app.Activity;
 import android.content.Context;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -135,7 +136,7 @@ public final class FileUtils {
      * 把uri转为File对象
      */
     public static File uri2File(Activity aty, Uri uri) {
-        if (SystemTool.getSDKVersion() < 11) {
+        if (android.os.Build.VERSION.SDK_INT < 11) {
             // 在API11以下可以使用：managedQuery
             String[] proj = { MediaStore.Images.Media.DATA };
             @SuppressWarnings("deprecation")
@@ -336,16 +337,5 @@ public final class FileUtils {
     public static void scanMediaFile(Context ctx, File file) {
     	ctx.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
     }
-
-/**
-	 * 刷新图库，用于在保存图片到文件后调用
-	 * 需要权限 android.intent.action.MEDIA_SCANNER_SCAN_DIR”
-	 * @param ctx
-	 * @param dirPath
-	 */
-    public static void scanMediaDir(Context ctx, Srting dirPath) {
-    	ctx.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_DIR, Uri.parse("file://" + path)));
-    }
-
 
 }
