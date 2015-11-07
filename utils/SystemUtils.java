@@ -5,6 +5,8 @@ import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -15,6 +17,7 @@ import android.app.ActivityManager.RunningServiceInfo;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -321,5 +324,23 @@ public final class SystemUtils {
             }
         Log.d(TAG, "清理了" + (getDeviceUsableMemory(cxt) - i) + "M内存");
         return count;
+    }
+    
+    /**
+     * 返回编译时间
+     * 
+     * @return -1: unknown time.
+     */
+    public static long getBuildTime(Context ctx) {
+        try {
+            ApplicationInfo ai = ctx.getApplicationInfo();
+            ZipFile zf = new ZipFile(ai.sourceDir);
+            ZipEntry ze = zf.getEntry("classes.dex");
+            long time = ze.getTime();
+            zf.close();
+            return time;
+        } catch (Exception e) {
+            return -1;
+        }
     }
 }
