@@ -36,11 +36,14 @@ public class SimpleSharedPreference {
 	}
 
 	public static SimpleSharedPreference getInstance(Context ctx, String name) {
-		SimpleSharedPreference simpleSharedPreference = sCacheSimpleSharedPreference.get(name);
-		if (simpleSharedPreference == null) {
-			simpleSharedPreference = new SimpleSharedPreference(ctx, name);
-			sCacheSimpleSharedPreference.put(name, simpleSharedPreference);
-		}
+        SimpleSharedPreference simpleSharedPreference = null;
+        synchronized (sCacheSimpleSharedPreference) {
+            simpleSharedPreference = sCacheSimpleSharedPreference.get(name);
+            if (simpleSharedPreference == null) {
+                simpleSharedPreference = new SimpleSharedPreference(ctx, name);
+                sCacheSimpleSharedPreference.put(name, simpleSharedPreference);
+            }
+        }
 		return simpleSharedPreference;
 	}
 
